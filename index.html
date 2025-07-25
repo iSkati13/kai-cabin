@@ -56,8 +56,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <!-- Firestore -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <!-- config.js for Firebase config (must come AFTER SDKs, BEFORE app scripts) -->
-    <script src="/kais-cabin/config.js"></script>
+    <!-- Dynamically load config.js for local and GitHub Pages -->
+    <script>
+      var configPath = location.hostname === "localhost"
+        ? "config.js"
+        : "/kais-cabin/config.js";
+      document.write('<script src="' + configPath + '"><\/script>');
+    </script>
 
     <!-- Nearby Locations Modal -->
     <div id="nearbyLocationsModal" class="modal hidden" role="dialog" aria-modal="true">
