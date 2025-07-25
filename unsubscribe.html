@@ -73,6 +73,13 @@
     <p id="unsubscribe-message">Processing your request...</p>
     <button class="btn" id="back-btn" style="display:none;">Back to Home</button>
   </div>
+  <!-- Dynamically load config.js for local and GitHub Pages -->
+  <script>
+    var configPath = location.hostname === "localhost"
+      ? "config.js"
+      : "/kais-cabin/config.js";
+    document.write('<script src="' + configPath + '"><\/script>');
+  </script>
   <script>
     function getQueryParam(name) {
       const url = new URL(window.location.href);
