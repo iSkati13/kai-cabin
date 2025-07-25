@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       html: `
         <h2>Welcome to Kai's Cabin!</h2>
         <p>Thank you for subscribing. You'll receive news, promos, and updates from us.</p>
-        <p>If you wish to unsubscribe at any time, <a href=\"https://kaiscabin.com/unsubscribe?email=${encodeURIComponent(email)}\">click here</a>.</p>
+        <p>If you wish to unsubscribe at any time, <a href=\"https://iskati13.github.io/kais-cabin/unsubscribe.html?email=${encodeURIComponent(email)}\">click here</a>.</p>
       `,
     });
     res.status(200).json({ success: true });
