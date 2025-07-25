@@ -577,11 +577,16 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
         }
         
-        // Show success popup first, then refresh after user closes it
+        // Close confirmation modal first
+        confirmationModal.classList.remove('show');
+        confirmationModal.classList.add('hidden');
+        updateBodyModalOpen();
+        
+        // Show success popup and wait for user to close it
         alert('Reservation submitted successfully! We will contact you soon.');
-        setTimeout(() => {
-          window.location.reload();
-        }, 100);
+        
+        // Only refresh after user closes the alert
+        window.location.reload();
 
       } catch (error) {
         showErrorMessage(error.message);
