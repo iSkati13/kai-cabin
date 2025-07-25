@@ -58,17 +58,33 @@ export default async function handler(req, res) {
     return res.status(500).json({ success: false, message: 'Server misconfiguration: missing reCAPTCHA secret' });
   }
   try {
+    console.log('🔍 reCAPTCHA verification starting...');
+    console.log('📝 Token received:', recaptchaToken ? 'YES' : 'NO');
+    
     const googleUrl = 'https://www.google.com/recaptcha/api/siteverify';
     const googleBody = `secret=${secret}&response=${recaptchaToken}`;
+    console.log('🌐 Calling Google reCAPTCHA API...');
+    
     const recaptchaRes = await fetch(googleUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: googleBody
     });
     const recaptchaData = await recaptchaRes.json();
+    
+    console.log('📊 Google response:', {
+      success: recaptchaData.success,
+      score: recaptchaData.score,
+      action: recaptchaData.action,
+      challenge_ts: recaptchaData.challenge_ts
+    });
+    
     if (!recaptchaData.success || recaptchaData.score < 0.5) {
+      console.log('❌ reCAPTCHA failed - success:', recaptchaData.success, 'score:', recaptchaData.score);
       return res.status(400).json({ success: false, message: 'reCAPTCHA verification failed. Please refresh the page and try again.' });
     }
+    
+    console.log('✅ reCAPTCHA verification PASSED!');
     const now = new Date();
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);

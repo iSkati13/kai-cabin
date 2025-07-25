@@ -530,7 +530,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Get reCAPTCHA token
+        console.log('🎯 Starting reCAPTCHA execution...');
         const recaptchaToken = await executeRecaptcha();
+        console.log('🎯 reCAPTCHA token:', recaptchaToken ? '✅ Received' : '❌ Failed');
+        if (recaptchaToken) {
+          console.log('🎯 Token length:', recaptchaToken.length);
+          console.log('🎯 Token preview:', recaptchaToken.substring(0, 20) + '...');
+        }
         if (!recaptchaToken) {
           throw new Error('CAPTCHA verification failed. Please try again.');
         }
