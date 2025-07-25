@@ -3,9 +3,10 @@ window.firebaseConfig = {
   apiKey: "AIzaSyCVnzUCtkX-24cOBOZoJ2FyZJHEIGAp-8s",
   authDomain: "kais-cabin-admin.firebaseapp.com",
   projectId: "kais-cabin-admin",
-  storageBucket: "kais-cabin-admin.appspot.com",
-  messagingSenderId: "1090123456789", // Replace with your actual sender ID if different
-  appId: "1:1090123456789:web:abcdef1234567890" // Replace with your actual app ID if different
+  storageBucket: "kais-cabin-admin.firebasestorage.app",
+  messagingSenderId: "425186271736",
+  appId: "1:425186271736:web:fb17e1d9752047077e360d",
+  measurementId: "G-6XC2710XE3"
 };
 window.recaptchaSiteKey = "6LcgbnArAAAAAN5X7tRuPKnQUODjze7RCWtDSG-b";
-window.API_BASE = "https://kais-cabin.vercel.app"; 
+window.API_BASE = "https://kais-cabin.vercel.app";
