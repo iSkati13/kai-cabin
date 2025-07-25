@@ -1,4 +1,5 @@
-const admin = require('firebase-admin');
+import admin from 'firebase-admin';
+
 if (!admin.apps.length) {
   admin.initializeApp();
 }
@@ -33,4 +34,4 @@ export default async function handler(req, res) {
     console.error('Unsubscribe error:', err);
     res.status(500).json({ success: false, message: 'Failed to unsubscribe' });
   }
-}; 
+} 

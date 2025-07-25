@@ -1,6 +1,5 @@
-const allowedOrigins = ['http://localhost:5500', 'https://iskati13.github.io'];
-
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
+  const allowedOrigins = ['http://localhost:5500', 'https://iskati13.github.io'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
@@ -43,4 +42,4 @@ module.exports = async (req, res) => {
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error' });
   }
-}; 
+} 

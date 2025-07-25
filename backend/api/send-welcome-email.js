@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   // Handle CORS preflight
@@ -43,4 +43,4 @@ export default async function handler(req, res) {
     console.error('Email error:', err);
     res.status(500).json({ success: false, message: 'Failed to send email' });
   }
-}; 
+} 

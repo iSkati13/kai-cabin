@@ -1,3 +1,7 @@
+import nodemailer from 'nodemailer';
+import { getFirestore } from 'firebase-admin/firestore';
+import admin from 'firebase-admin';
+
 export default async function handler(req, res) {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
@@ -13,10 +17,6 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  // Move all requires and setup here
-  const nodemailer = require('nodemailer');
-  const { getFirestore } = require('firebase-admin/firestore');
-  const admin = require('firebase-admin');
   if (!admin.apps.length) {
     admin.initializeApp({
       credential: admin.credential.cert({
