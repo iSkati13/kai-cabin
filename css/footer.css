@@ -1,0 +1,233 @@
+/* Modal Styles for Nearby Locations (Footer) */
+#nearbyLocationsModal.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background: rgba(20, 24, 31, 0.85); /* dark overlay */
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+#nearbyLocationsModal.modal.hidden {
+  /* Remove display: none here to avoid conflict */
+}
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 2rem 2rem 1.5rem 2rem;
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  animation: modalFadeIn 0.3s;
+}
+@keyframes modalFadeIn {
+  from { transform: translateY(40px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+.modal-content--image {
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  max-width: 95vw;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+}
+.modal-image {
+  display: block;
+  margin: 0;
+  border-radius: 0;
+  width: auto;
+  height: auto;
+  max-width: 95vw;
+  max-height: 90vh;
+  object-fit: contain;
+  background: transparent;
+  box-shadow: none;
+}
+.close {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  z-index: 2;
+  transition: color 0.2s, background 0.2s;
+  line-height: 1;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close:hover, .close:focus {
+  color: #e74c3c;
+  background: rgba(0,0,0,0.8);
+  outline: none;
+}
+@media (max-width: 800px) {
+  .modal-content--image {
+    max-width: 99vw;
+    max-height: 80vh;
+  }
+  .modal-image {
+    max-width: 99vw;
+    max-height: 80vh;
+  }
+  .close {
+    top: 8px;
+    right: 8px;
+    font-size: 1.7rem;
+    width: 36px;
+    height: 36px;
+  }
+}
+@media (max-width: 480px) {
+  .modal-content--image {
+    max-width: 100vw;
+    max-height: 70vh;
+  }
+  .modal-image {
+    max-width: 100vw;
+    max-height: 70vh;
+  }
+  .close {
+    top: 4px;
+    right: 4px;
+    font-size: 1.3rem;
+    width: 28px;
+    height: 28px;
+  }
+}
+@media (max-width: 600px) {
+  .footer__business-info p {
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    word-break: keep-all;
+  }
+}
+
+.cancellation-policy-modal-content {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 36px 28px 28px 28px;
+  max-width: 480px;
+  width: 95vw;
+  box-shadow: 0 8px 32px rgba(93,138,74,0.13);
+  border: 1.5px solid var(--primary-100);
+  color: var(--gray-800);
+  font-family: var(--font-primary);
+  position: relative;
+}
+.cancellation-policy-title {
+  color: var(--brand-secondary);
+  font-size: 1.45rem;
+  font-family: var(--font-secondary);
+  font-weight: 700;
+  margin-bottom: 1.1em;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+.cancellation-policy-list {
+  font-size: 1.01em;
+  color: var(--gray-700);
+  margin: 0 0 0 1.1em;
+  padding: 0;
+  line-height: 1.6;
+}
+.cancellation-policy-list > li {
+  margin-bottom: 1.1em;
+  font-weight: 600;
+}
+.cancellation-policy-list ul {
+  margin: 0.4em 0 0.7em 1.2em;
+  padding: 0;
+  font-weight: 400;
+  font-size: 0.98em;
+  color: var(--gray-700);
+}
+.cancellation-policy-list li strong {
+  color: var(--brand-secondary);
+  font-weight: 700;
+}
+.cancellation-policy-list a {
+  color: var(--brand-secondary);
+  text-decoration: underline;
+  word-break: break-all;
+}
+.cancellation-policy-list a:hover {
+  color: var(--brand-secondary);
+}
+@media (max-width: 600px) {
+  .cancellation-policy-modal-content {
+    padding: 18px 8px 16px 8px;
+    max-width: 99vw;
+    font-size: 0.97em;
+  }
+  .cancellation-policy-title {
+    font-size: 1.08rem;
+    margin-bottom: 0.7em;
+  }
+  .cancellation-policy-list {
+    margin-left: 0.5em;
+    font-size: 0.97em;
+  }
+}
+
+.modal.show {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.modal.hidden {
+  display: none !important;
+}
+
+@media (min-width: 1024px) {
+  .cancellation-policy-modal-content {
+    max-width: 700px;
+    padding: 48px 48px 36px 48px;
+    font-size: 1.08rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .cancellation-policy-modal-content {
+    max-width: 98vw;
+    width: 98vw;
+    padding: 18px 6vw 18px 6vw;
+    font-size: 0.97rem;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 90vh;
+    word-break: break-word;
+  }
+  .cancellation-policy-title {
+    font-size: 1.08rem;
+    padding: 0 0.2em;
+  }
+  .cancellation-policy-list {
+    margin-left: 0.7em;
+    font-size: 0.97em;
+  }
+} 

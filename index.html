@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google.com https://www.gstatic.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+        img-src 'self' data: https://kaiscabin.com https://www.google.com https://i.ibb.co;
+        frame-src https://www.google.com;
+        connect-src 'self' https://firestore.googleapis.com https://www.googleapis.com https://kaiscabin.com https://www.gstatic.com https://www.google-analytics.com https://kais-cabin.vercel.app https://www.google.com;
+      ">
+    <title>Kai's Cabin</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-title" content="Kai's Cabin">
+    <link rel="manifest" href="favicon/site.webmanifest">
+
+    <!-- Meta Tags for SEO -->
+    <meta name="description" content="Kai's Cabin - A cozy resthouse in Bulacan. Relax, recharge, and make memories with modern amenities, a scenic location, and easy booking.">
+    <meta property="og:title" content="Kai's Cabin - Bulacan Resthouse">
+    <meta property="og:description" content="Relax, recharge, and make memories at Kai's Cabin. Modern amenities, scenic views, and easy booking in Bulacan.">
+    <meta property="og:image" content="https://kaiscabin.com/assets/images/og-image.jpg">
+    <meta property="og:url" content="https://kaiscabin.com/">
+    <meta property="og:type" content="website">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVKEN1KVWH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-FVKEN1KVWH');
+    </script>
+
+    <!-- reCAPTCHA v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LcgbnArAAAAAN5X7tRuPKnQUODjze7RCWtDSG-b"></script>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <!-- Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <!-- config.js for Firebase config (must come AFTER SDKs, BEFORE app scripts) -->
+    <script src="config.js"></script>
+
+    <!-- Nearby Locations Modal -->
+    <div id="nearbyLocationsModal" class="modal hidden" role="dialog" aria-modal="true">
+        <div class="modal-content modal-content--image">
+            <span class="close" id="nearbyLocationsClose" type="button">&times;</span>
+            <img src="assets/images/nearby-locations.png" alt="Nearby Locations" class="modal-image" style="max-width:100%;height:auto;display:block;margin:0 auto;">
+        </div>
+    </div>
+
+    <!-- Cancellation Policy Modal -->
+    <div id="cancellationPolicyModal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content cancellation-policy-modal-content">
+        <span class="close" id="cancellationPolicyClose" type="button">&times;</span>
+        <h3 class="cancellation-policy-title">Cancellation Policy</h3>
+        <ol class="cancellation-policy-list">
+          <li><strong>Standard Cancellation Terms</strong>
+            <ul>
+              <li><strong>Full Refund:</strong> Cancel 30 days or more before your check-in date to get a 100% refund of all payments.</li>
+              <li><strong>Partial Refund:</strong> If you cancel between 14 and 29 days before check-in, you'll receive a 50% refund of your total booking.</li>
+              <li><strong>Rebooking:</strong> You can rebook your stay up to two times, but this must be done at least 14 days before your original check-in date and is subject to availability.</li>
+              <li><strong>Important:</strong> Change requests made 14 days or less before your booked date are not eligible for a refund or rebooking.</li>
+            </ul>
+          </li>
+          <li><strong>Acts of Nature</strong>
+            <ul>
+              <li>In cases of unforeseen circumstances beyond your control (like natural disasters or government-imposed travel restrictions), our rebooking policy will apply.</li>
+            </ul>
+          </li>
+          <li><strong>Early Checkout</strong>
+            <ul>
+              <li>No refunds will be provided for early checkout or no-shows.</li>
+            </ul>
+          </li>
+          <li><strong>Security Deposit</strong>
+            <ul>
+              <li>The security deposit is fully refundable, provided no damages are incurred. Refunds are processed within a day after check-out.</li>
+            </ul>
+          </li>
+          <li><strong>Cancellation Procedure</strong>
+            <ul>
+              <li>To cancel your reservation:<br>
+                Submit a written cancellation request to <a href="mailto:info@kaiscabin.com">info@kaiscabin.com</a> or send us a private message on our social media channels:<br>
+                <a href="https://facebook.com/kaiscabin" target="_blank" rel="noopener">facebook.com/kaiscabin</a><br>
+                IG <a href="https://instagram.com/kais.cabin" target="_blank" rel="noopener">@kais.cabin</a><br>
+                Whatsapp/Viber - <a href="tel:09339566221">09339566221</a>
+              </li>
+              <li>Include your booking date/s and full name.</li>
+              <li>Await a confirmation email acknowledging the cancellation and detailing any applicable refunds.</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- House Rules Modal -->
+    <div id="houseRulesModal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content modal-content--image">
+        <span class="close" id="houseRulesClose" type="button">&times;</span>
+        <img src="assets/images/house-rules.png" alt="House Rules" class="modal-image" style="max-width:100%;height:auto;display:block;margin:0 auto;">
+      </div>
+    </div>
+</head>
+<body>
+    <nav class="navbar" aria-label="Main Navigation">
+        <div class="navbar__container">
+            <div class="navbar__logo">
+                <a href="#hero" class="navbar__logo-link" aria-label="Go to Hero section">
+                    <span class="navbar__logo-text">Kai's Cabin</span>
+                    <span class="navbar__logo-tagline">Private Resort and Event's Place</span>
+                </a>
+            </div>
+            <button class="navbar__toggle" id="navbarToggle" aria-label="Open navigation">
+                <span class="navbar__hamburger"></span>
+                <span class="navbar__hamburger"></span>
+                <span class="navbar__hamburger"></span>
+            </button>
+            <ul class="navbar__links" id="navbarLinks">
+                <li><a href="#hero" aria-current="page">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#amenities">Amenities</a></li>
+                <li><a href="#rates">Rates</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#booking" class="navbar__book-link">Book Now</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <main>
+            <!-- Hero Section -->
+            <section class="hero" id="hero">
+                <div class="hero__content">
+                    <div class="hero__content-inner">
+                        <img src="assets/icons/logo.png" alt="Kai's Cabin logo" class="hero__logo" loading="lazy">
+                        <h1 class="hero__heading">
+                            <span class="hero__heading-line1">The Perfect Family Getaway</span>
+                            <span class="hero__heading-line2">in Bulacan</span>
+                        </h1>
+                        <p class="hero__tagline">Relax, recharge, and make memories at <span class="hero__tagline-break">Kai's Cabin.</span></p>
+                        <a href="#booking" class="btn hero__btn">Reserve Your Stay</a>
+                    </div>
+                </div>
+                <div class="hero__scroll-indicator">
+                    Scroll to explore
+                </div>
+            </section>
+
+            <div class="section-separator"></div>
+
+            <!-- About Section -->
+            <section id="about" class="about section">
+                <div class="about__container">
+                    <div class="about__content">
+                        <div class="about__text">
+                            <h2>About Kai's Cabin</h2>
+                            <p>Looking for the perfect spot to reconnect with your favorite people? Welcome to Kai's Cabin, a private resort nestled right here in Bulacan, designed for memorable moments with both family and friends. We get it – life gets busy, and finding a place that caters to everyone can be a challenge. That's exactly why we created Kai's Cabin!</p>
+                            <p>Whether it's a fun-filled family reunion, a much-needed barkada escape, or a cozy weekend with loved ones, our resort offers the ideal blend of relaxation and recreation. You'll find comfortable spaces to unwind, refreshing pool to splash in, and plenty of room for laughter, games, and shared meals. We've built Kai's Cabin to be your home away from home, where every visit strengthens bonds and creates lasting happy memories. Come discover your next favorite gathering place!</p>
+                        </div>
+                        <div class="about__right">
+                            <div class="about__image">
+                                <img src="assets/images/resthouse2.jpg" alt="Kai's Cabin resthouse exterior" class="about__photo">
+                            </div>
+                            <div class="about__features">
+                                <div class="about__feature">Peaceful location with scenic views</div>
+                                <div class="about__feature">Modern amenities & comfy accommodations</div>
+                                <div class="about__feature">Spacious for families & barkada groups</div>
+                                <div class="about__feature">Private pool for exclusive use</div>
+                                <div class="about__feature">Indoor & outdoor dining areas</div>
+                                <div class="about__feature">Secure, gated property with parking</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-separator"></div>
+
+            <!-- Intimate Events Block -->
+            <section id="intimate-events" class="intimate-events-block">
+                <h2 class="intimate-events-block__title">Celebrate Life's Special Moments at Kai's Cabin</h2>
+                <div class="intimate-events-block__desc">
+                    <p>Imagine a truly personal celebration, tailored just for you. Kai's Cabin, your private sanctuary, is the ideal venue for intimate events where every detail feels meaningful and every memory lasts a lifetime.</p>
+                    <p>Picture hosting a romantic anniversary dinner, a heartfelt family gathering, a delightful baby shower, or a cozy proposal. Our serene setting, complete with a sparkling private pool, a fully equipped kitchen for your culinary needs, and comfortable, air-conditioned spaces, ensures an atmosphere of pure joy and relaxation.</p>
+                    <p>Let us help you turn your vision into reality. At Kai's Cabin, we're dedicated to making your intimate event in Bulacan, absolutely perfect.</p>
+                </div>
+            </section>
+
+            <div class="section-separator"></div>
+
+            <!-- Amenities Section -->
+            <section id="amenities" class="amenities section-card">
+                <div class="container">
+                    <h2 class="amenities__title">Amenities</h2>
+                    <div class="amenities__categories"></div>
+                    <span class="amenities__swipe-hint">Swipe for more &rarr;</span>
+                    <div class="amenities__carousel"></div>
+                    <div class="amenities__indicator"></div>
+                    <div class="amenities__carousel-controls"></div>
+                </div>
+            </section>
+
+            <div class="section-separator"></div>
+
+            <!-- Rates & Inclusions Section -->
+            <section id="rates" class="rates-block">
+                <h2 class="rates-block__title">Rates & Inclusions</h2>
+                <div class="rates-block__table-wrap">
+                    <table class="rates-block__table responsive-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Base Rate<br>(Up to 20 Pax)</th>
+                                <th>Additional Pax</th>
+                                <th>Max Capacity</th>
+                                <th>Pet Fee<br>(Per Pet)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Category">Weekdays (Mon–Thu)</td>
+                                <td data-label="Base Rate (Up to 20 Pax)">₱15,999</td>
+                                <td data-label="Additional Pax">₱500/person</td>
+                                <td data-label="Max Capacity">25 persons</td>
+                                <td data-label="Pet Fee (Per Pet)">₱500</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Category">Weekends & Holidays (Fri–Sun)</td>
+                                <td data-label="Base Rate (Up to 20 Pax)">₱18,999</td>
+                                <td data-label="Additional Pax">₱500/person</td>
+                                <td data-label="Max Capacity">25 persons</td>
+                                <td data-label="Pet Fee (Per Pet)">₱500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="rates-block__notes">
+                  <div class="rates-block__notes-list">
+                    <ul>
+                      <li>Base rate includes 20 guests.</li>
+                      <li>Maximum of 25 guests allowed.</li>
+                      <li>Fur babies (pets) are welcome for an additional ₱500 each.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="rates-block__cards rates-block__dropdowns">
+                  <details class="rates-block__dropdown-group">
+                    <summary class="rates-block__dropdown-group-title">Inclusions & Reminders</summary>
+                    <div class="rates-block__dropdowns-inner">
+                      <div class="rates-block__dropdown-col">
+                        <h3 class="rates-block__card-title">Inclusions</h3>
+                        <ul class="rates-block__card-list">
+                          <li>Exclusive use of the whole villa including all the amenities</li>
+                          <li>Swimming Pool</li>
+                          <li>Open Area for activities</li>
+                          <li>3 Air Conditioned rooms</li>
+                          <li>3 Toilet and Bath</li>
+                          <li>Bath Tub</li>
+                          <li>Open Kitchen with basic wares and utensils</li>
+                          <li>BBQ Smoker and grill</li>
+                          <li>High Speed WiFi</li>
+                          <li>Karaoke</li>
+                          <li>Basic Appliances</li>
+                        </ul>
+                      </div>
+                      <div class="rates-block__dropdown-col">
+                        <h3 class="rates-block__card-title">Reminders for Your Stay</h3>
+                        <ul class="rates-block__card-list">
+                          <li>Check-In Time: 2:00 PM</li>
+                          <li>Check-Out Time: 11:00 AM</li>
+                          <li>Reservation Policy: 50% non-refundable deposit required</li>
+                          <li>Security Deposit: ₱2,000 (refundable)</li>
+                          <li>No corkage fee – bring your own food/drinks!</li>
+                          <li>Up to 2 babies (1 year and below) stay free</li>
+                          <li>Please help us keep the place clean</li>
+                          <li>Pets are allowed</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </details>
+                </div>
+            </section>
+
+            <div class="section-separator"></div>
+
+            <!-- Gallery Section -->
+            <section id="gallery" class="gallery section-card">
+                <div class="container">
+                    <h2 class="gallery__title">Gallery</h2>
+                    <div class="gallery__content">
+                        <div class="gallery__slideshow" id="gallerySlideshow"></div>
+                    </div>
+                    <div class="gallery__dots"></div>
+                </div>
+            </section>
+
+            <div id="gallerySlideshow"></div>
+            <div class="gallery__dots"></div>
+
+            <div class="section-separator"></div>
+
+            <!-- Booking Section -->
+            <section id="booking" class="booking section">
+                <div class="container">
+                    <div class="booking__content">
+                        <div class="booking__form">
+                            <h2>Book Your Stay</h2>
+                            <div class="booking__calendar">
+                                <div id="bookingCalendar"></div>
+                            </div>
+                            <div class="booking__dates">
+                                <label>
+                                    Check-in:
+                                    <input type="text" id="checkin" readonly>
+                                </label>
+                                <label>
+                                    Check-out:
+                                    <input type="text" id="checkout" readonly>
+                                </label>
+                            </div>
+                            <div class="booking__action">
+                                <button id="openModal" class="btn btn-primary">Reserve Now</button>
+                            </div>
+                        </div>
+
+                        <!-- Modal Reservation Form -->
+                        <div id="reservationModal" class="modal hidden" role="dialog" aria-modal="true">
+                            <div class="modal-content">
+                                <span class="close" type="button">&times;</span>
+                                <div class="modal-dates-bar">
+                                    <div class="modal-date-display">
+                                        <span class="modal-date-label">Check-in:</span>
+                                        <span id="modal-checkin-display">—</span>
+                                    </div>
+                                    <div class="modal-date-display">
+                                        <span class="modal-date-label">Check-out:</span>
+                                        <span id="modal-checkout-display">—</span>
+                                    </div>
+                                </div>
+                                <h3>Reservation Form</h3>
+                                <form id="reservationForm" autocomplete="off" aria-label="Cabin Reservation Form">
+                                    <input type="hidden" name="checkin" id="modal-checkin">
+                                    <input type="hidden" name="checkout" id="modal-checkout">
+                                    <div class="form-group">
+                                        <label for="first-name">First Name</label>
+                                        <input type="text" id="first-name" name="firstName" required aria-required="true" aria-label="First Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last-name">Last Name</label>
+                                        <input type="text" id="last-name" name="lastName" required aria-required="true" aria-label="Last Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" id="email" name="email" required aria-required="true" aria-label="Email Address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone">Phone Number</label>
+                                        <div class="phone-input-group">
+                                            <select id="country-code" class="country-code-select" required aria-label="Country Code">
+                                                <option value="+63" selected>🇵🇭 +63</option>
+                                                <option value="+1">🇺🇸 +1</option>
+                                                <option value="+44">🇬🇧 +44</option>
+                                                <option value="+61">🇦🇺 +61</option>
+                                                <option value="+81">🇯🇵 +81</option>
+                                                <option value="+65">🇸🇬 +65</option>
+                                                <option value="+91">🇮🇳 +91</option>
+                                            </select>
+                                            <input type="tel" id="phone" name="phone" pattern="[0-9]{6,15}" inputmode="numeric" maxlength="15" placeholder="9123456789" required aria-label="Phone Number">
+                                        </div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="address">Where Are You From?</label>
+                                        <input type="text" id="address" name="address" placeholder="e.g. Quezon City, Bulacan" required aria-label="Address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="guests">Number of Guests</label>
+                                        <div class="guests-input-group">
+                                            <button type="button" class="guests-btn guests-btn--decrease" aria-label="Decrease guests">-</button>
+                                            <input type="number" id="guests" name="guests" min="1" value="13" required aria-label="Number of Guests">
+                                            <button type="button" class="guests-btn guests-btn--increase" aria-label="Increase guests">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="message">Additional Message</label>
+                                        <textarea id="message" name="note" rows="4" placeholder="Let us know if you have special requests." aria-label="Additional Message"></textarea>
+                                    </div>
+                                    <label class="privacy-checkbox-group">
+                                      <input type="checkbox" id="privacy-checkbox" name="privacy" required>
+                                      <span>I consent to the collection and processing of my data for the purpose of handling my reservation, in accordance with the Data Privacy Policy.</span>
+                                    </label>
+                                    <!-- Place subscribe checkbox just above the submit button -->
+                                    <label class="subscribe-checkbox-group">
+                                      <input type="checkbox" id="subscribe-checkbox" name="subscribe" value="yes">
+                                      <span>I would like to receive news and promotions from Kai's Cabin. (optional)</span>
+                                    </label>
+                                    <button type="submit" class="btn btn-primary" aria-label="Send Reservation" id="send-reservation-btn" disabled>Send Reservation</button>
+                                    <div class="recaptcha-disclaimer">
+                                        This site is protected by reCAPTCHA and the Google
+                                        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and
+                                        <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Submission Confirmation Modal -->
+                        <div id="confirmationModal" class="modal hidden" role="dialog" aria-modal="true">
+                            <div class="modal-content">
+                                <span class="close" id="confirmationClose" type="button">&times;</span>
+                                <h3>Confirm Your Reservation</h3>
+                                <ul class="confirmation-list">
+                                    <li><strong>Check-in:</strong> <span id="confirm-checkin"></span></li>
+                                    <li><strong>Check-out:</strong> <span id="confirm-checkout"></span></li>
+                                    <li><strong>First Name:</strong> <span id="confirm-first-name"></span></li>
+                                    <li><strong>Last Name:</strong> <span id="confirm-last-name"></span></li>
+                                    <li><strong>Email:</strong> <span id="confirm-email"></span></li>
+                                    <li><strong>Phone:</strong> <span id="confirm-phone"></span></li>
+                                    <li><strong>Address:</strong> <span id="confirm-address"></span></li>
+                                    <li><strong>Number of Guests:</strong> <span id="confirm-guests"></span></li>
+                                    <li><strong>Message:</strong> <span id="confirm-message"></span></li>
+                                </ul>
+                                <div class="confirmation-actions">
+                                    <button id="confirmSubmit" class="btn btn-primary" type="submit">Confirm & Submit</button>
+                                    <div class="confirmation-cancel-wrap">
+                                        <button id="cancelConfirmation" class="btn btn-secondary" type="button">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="booking__location">
+                            <div class="booking__map">
+                                <h2>Find Us</h2>
+                                <div class="map-responsive">
+                                    <iframe
+                                        src="https://www.google.com/maps?q=Kai's+Cabin,+Pulong+Buhangin,+Santa+Maria,+Bulacan&z=16&output=embed"
+                                        allowfullscreen
+                                        loading="lazy"
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                    </iframe>
+                                </div>
+                                <a
+                                    href="https://www.google.com/maps/dir/?api=1&destination=Kai's+Cabin,+Pulong+Buhangin,+Santa+Maria,+Bulacan"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="btn btn-primary booking__map-btn">
+                                    Get Directions
+                                </a>
+                            </div>
+                            <div class="booking__directions">
+                                <h3>How to Get Here</h3>
+                                <details>
+                                    <summary>Private Vehicle (From Manila or North Luzon)</summary>
+                                    <ol>
+                                        <li>Exit NLEX at Bocaue.</li>
+                                        <li>From Manila: Turn right onto Gov. Fortunato Halili Ave.<br>
+                                            From North Luzon: Turn left onto Gov. Fortunato Halili Ave.</li>
+                                        <li>Continue straight, pass BMMG Hospital, Mateo Hospital.</li>
+                                        <li>Turn left onto Santa Maria Bypass Road (Landmarks: PTT, Shakey's, Contis, Peri Peri).</li>
+                                        <li>Merge onto Norzagaray - Santa Maria Road (Landmark: Waltermart Sta. Maria).</li>
+                                        <li>Go straight, pass Goldilocks, Philhealth, RePhil Gas station.</li>
+                                        <li>Turn onto City Land Drive (Landmarks: AllHome, Jollibee, McDo).</li>
+                                        <li>Pin Pulong Buhangin Barangay Hall for Waze/Google Maps.</li>
+                                        <li>Straight along Cityland Drive, turn left on Lopez Jaena before Divine Mercy chapel to reach Kai's Cabin.</li>
+                                    </ol>
+                                </details>
+                                <details>
+                                    <summary>Commute</summary>
+                                    <ol>
+                                        <li>Ride a bus at Trinoma P2P terminal bound to Sta. Maria (Precious Grace Transport).</li>
+                                        <li>Drop at Sta. Clara or Caypombo, then ride a Jeep/Bus to Norzagaray.</li>
+                                        <li>Ask to be dropped at City Land or Pulong Buhangin Barangay Hall.</li>
+                                        <li>Ride a trike to Kai's Cabin.</li>
+                                    </ol>
+                                </details>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-separator"></div>
+
+            <!-- Hear From Our Guests Section -->
+            <section id="reviews" class="reviews section-card">
+                <div class="container">
+                    <h2 class="reviews__title">Hear From Our Guests</h2>
+                    <div class="reviews__slideshow" id="reviewsSlideshow"></div>
+                    <div class="reviews__dots" id="reviewsDots"></div>
+                </div>
+            </section>
+
+            <div class="section-separator"></div>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact section">
+            <div class="container">
+                <div class="contact__content">
+                    <div class="contact__info">
+                        <h2>Contact Us</h2>
+                        <div class="contact__details">
+                            <address>
+                                <div class="contact__detail">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>info@kaiscabin.com</span>
+                                </div>
+                                <div class="contact__detail">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+63 912 345 6789</span>
+                                </div>
+                                <div class="contact__detail">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span>+63 912 345 6789</span>
+                                </div>
+                                <div class="contact__detail">
+                                    <i class="fab fa-viber"></i>
+                                    <span>+63 912 345 6789</span>
+                                </div>
+                                <div class="contact__detail">
+                                    <i class="fab fa-facebook-messenger"></i>
+                                    <span>Kai's Cabin</span>
+                                </div>
+                            </address>
+                        </div>
+                    </div>
+                    <div class="contact__social">
+                        <h2>Follow Us</h2>
+                        <div class="contact__icons">
+                            <a href="https://web.facebook.com/kaiscabin" class="contact__icon">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/kais.cabin/?utm_source=ig_web_button_share_sheet" class="contact__icon">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="contact__icon">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                            <a href="#" class="contact__icon">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact__info">
+                        <h2>Subscribe by Email</h2>
+                        <div class="contact__details">
+                            <div class="contact__detail">
+                                <i class="fas fa-paper-plane contact__subscribe-icon" aria-hidden="true"></i>
+                                <span>Get the latest news, promos, and updates from Kai's Cabin straight to your inbox. No spam, ever!</span>
+                            </div>
+                        </div>
+                        <form id="subscribe-form" class="subscribe-form">
+                            <input type="email" name="email" placeholder="Your email address" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                        <p id="subscribe-message" class="subscribe__message"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </main>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__main">
+                    <div class="footer__section">
+                        <h3>Kai's Cabin</h3>
+                        <p>Your perfect escape in Bulacan. Experience comfort, nature, and unforgettable memories in our serene resthouse.</p>
+                        <div class="footer__business-info">
+                            <p><i class="fas fa-clock"></i> <strong>Business Hours:</strong> Check-in: 2:00 PM | Check-out: 11:00 AM</p>
+                            <p><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> Pulong Buhangin, Santa Maria, Bulacan</p>
+                        </div>
+                    </div>
+                    
+                    <div class="footer__section">
+                        <h4>Quick Links</h4>
+                        <ul class="footer__links">
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="#amenities">Amenities</a></li>
+                            <li><a href="#gallery">Gallery</a></li>
+                            <li><a href="#booking" class="navbar__book-link">Book Now</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer__section">
+                        <h4>Services</h4>
+                        <ul class="footer__links">
+                            <li>Family Accommodations</li>
+                            <li>Group Bookings</li>
+                            <li>Event Hosting</li>
+                            <li>Weekend Getaways</li>
+                            <li>Long-term Stays</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer__section">
+                        <h4>Support</h4>
+                        <ul class="footer__links">
+                            <li><a href="#" id="cancellationPolicyLink">Cancellation Policy</a></li>
+                            <li><a href="#" id="houseRulesLink">House Rules</a></li>
+                            <li><a href="#" id="nearbyLocationsLink">Nearby Locations</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="footer__divider"></div>
+                
+                <div class="footer__bottom">
+                    <div class="footer__copyright">
+                        <p>&copy; 2025 Kai's Cabin. All rights reserved.</p>
+                        <p>Designed with ❤️ for your perfect getaway</p>
+                    </div>
+                    <div class="footer__business-details">
+                        <p><strong>Business Registration:</strong> [Your Business Registration Number]</p>
+                        <p><strong>DTI/SEC Registration:</strong> [Your DTI/SEC Number]</p>
+                        <p><strong>Tax Identification:</strong> [Your TIN Number]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/amenities.js"></script>
+    <script type="module" src="js/gallery.js"></script>
+    <script type="module" src="js/booking.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/reviews.js"></script>
+    <script src="js/subscribe.js"></script>
+    <script>
+        // Enable/disable the Send Reservation button based on privacy checkbox
+        document.addEventListener('DOMContentLoaded', function() {
+            var privacyCheckbox = document.getElementById('privacy-checkbox');
+            var sendBtn = document.getElementById('send-reservation-btn');
+            if (privacyCheckbox && sendBtn) {
+                function updateBtn() {
+                    sendBtn.disabled = !privacyCheckbox.checked;
+                }
+                privacyCheckbox.addEventListener('change', updateBtn);
+                updateBtn();
+            }
+        });
+    </script>
+</body>
+</html>

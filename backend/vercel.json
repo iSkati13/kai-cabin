@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "redirects": [
+    {
+      "source": "/lander",
+      "destination": "/unsubscribe",
+      "permanent": true
+    }
+  ]
+}

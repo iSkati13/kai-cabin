@@ -1,0 +1,86 @@
+/* Intimate Events Block Styles - Minimalist, Responsive, Wide Desktop */
+.intimate-events-block {
+  background: var(--coastal-cream);
+  max-width: 1100px;
+  margin: 0 auto 2.2rem auto;
+  padding: 2.2em 1.2em 1.7em 1.2em;
+  border-radius: var(--radius-2xl);
+  box-shadow: 0 2px 16px rgba(93,138,74,0.07);
+  border: 1.5px solid var(--primary-100, #eef2e8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1em;
+  position: relative;
+}
+.intimate-events-block__icon {
+  font-size: 3.5rem;
+  color: var(--brand-primary, #5d8a4a);
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 2px 12px rgba(93,138,74,0.08);
+  padding: 0.5em 0.7em;
+  margin-bottom: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.intimate-events-block__title {
+  font-family: var(--font-secondary);
+  font-size: clamp(2rem, 4vw, 2.3rem);
+  font-weight: 700;
+  color: var(--brand-dark);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.4em 0;
+  text-align: center;
+  position: relative;
+}
+.intimate-events-block__title::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-primary), var(--coastal-blue));
+  border-radius: 2px;
+  margin: 1em auto 0 auto;
+}
+.intimate-events-block__desc {
+  font-size: 1.09rem;
+  color: var(--gray-700);
+  line-height: 1.6;
+  text-align: justify;
+  max-width: 800px;
+  margin: 0 auto;
+  font-weight: 400;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+.intimate-events-block__desc p {
+  text-indent: 2em;
+  margin-bottom: 1.1em;
+  line-height: 1.7;
+}
+@media (max-width: 900px) {
+  .intimate-events-block {
+    max-width: 99vw;
+    padding: 1.1em 0.3em 1em 0.3em;
+    border-radius: var(--radius-lg);
+    gap: 0.7em;
+  }
+  .intimate-events-block__icon {
+    font-size: 2.2rem;
+    padding: 0.3em 0.5em;
+  }
+  .intimate-events-block__title {
+    font-size: 1.2rem;
+    margin-bottom: 0.13em;
+  }
+  .intimate-events-block__desc {
+    font-size: 0.98rem;
+    padding: 0;
+  }
+} 
+} 

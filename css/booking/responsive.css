@@ -1,0 +1,416 @@
+@media (max-width: 900px) {
+    .booking__content {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+    }
+    
+    .booking__form,
+    .booking__location {
+        max-width: 100%;
+        min-width: 280px;
+    }
+}
+
+@media (min-width: 901px) and (max-width: 1023px) {
+    .booking__content {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        max-width: 800px;
+    }
+    
+    .booking__form,
+    .booking__location {
+        max-width: 600px;
+        min-width: 400px;
+    }
+}
+
+@media (max-width: 600px) {
+    .booking {
+        padding: 32px 0;
+        min-height: 60vh;
+    }
+    
+    .booking__form,
+    .booking__location {
+        padding: 20px 16px;
+        min-width: 260px;
+    }
+    
+    .modal.show {
+        padding: 10px;
+    }
+    
+    .modal-content {
+        width: 100%;
+        padding: 24px 20px;
+        margin: 0;
+        border-radius: 16px;
+    }
+    
+    .modal-content h3 {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+    }
+    
+    .modal-content input,
+    .modal-content textarea {
+        font-size: 16px;
+        padding: 12px 14px;
+    }
+    
+    .modal-content button[type="submit"] {
+        padding: 14px 24px;
+        font-size: 1rem;
+    }
+    
+    .close {
+        right: 16px;
+        top: 16px;
+        font-size: 1.8rem;
+        width: 36px;
+        height: 36px;
+    }
+    
+    #bookingCalendar {
+        max-width: 100%;
+    }
+    
+    #bookingCalendar .calendar-header {
+        font-size: 0.9rem;
+    }
+    
+    #bookingCalendar .calendar-date {
+        font-size: 0.8rem;
+    }
+    
+    .booking__dates {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
+        margin-top: 12px;
+        margin-bottom: 0;
+    }
+    
+    .booking__dates label {
+        width: 100%;
+        align-items: flex-start;
+        font-size: 0.98rem;
+        overflow-wrap: anywhere;
+        margin-bottom: 8px;
+    }
+    
+    .booking__dates input[type="text"] {
+        width: 100%;
+        max-width: 100%;
+        font-size: 0.98rem;
+        min-width: 0;
+        padding: 10px 14px;
+        margin-bottom: 0;
+    }
+    
+    .booking__calendar {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+    
+    .booking__directions details[open] ol {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+        margin-bottom: 8px;
+    }
+    
+    .modal-dates-bar {
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 0;
+    }
+    
+    .modal-date-display {
+        min-width: 0;
+        width: 100%;
+    }
+    
+    .guests-input-group {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+    
+    .guests-btn,
+    .guests-input-group input[type="number"] {
+        height: 44px;
+        min-height: 44px;
+        font-size: 1rem;
+        border-radius: 0;
+    }
+    
+    .guests-btn {
+        width: 40px;
+        font-size: 1.1rem;
+        border-radius: 10px !important;
+    }
+    
+    .guests-btn--decrease {
+        border-radius: 10px 0 0 10px !important;
+    }
+    
+    .guests-btn--increase {
+        border-radius: 0 10px 10px 0 !important;
+    }
+    
+    .guests-input-group input[type="number"] {
+        font-size: 1rem;
+        padding: 0 8px;
+        max-width: 60px;
+        border-radius: 0;
+        line-height: 44px;
+    }
+    
+    .calendar-legend {
+        align-items: center;
+        justify-content: center;
+        font-size: 0.91rem;
+        padding: 2px 0 0 0;
+    }
+    
+    .calendar-legend__title {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .calendar-legend span {
+        font-size: 0.98em;
+    }
+}
+
+@media (min-width: 601px) {
+    .booking__directions details[open] ol {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+        margin-bottom: 8px;
+    }
+    
+  .confirmation-cancel-wrap {
+    margin-top: 24px;
+  }
+}
+
+@media (min-width: 700px) {
+    .modal-content {
+        width: 90%;
+        max-width: 900px;
+        padding: 48px 40px;
+    }
+    
+    .modal-content form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    
+    .modal-content form .form-group {
+        grid-column: span 1;
+    }
+    
+    .modal-content form .form-group.full-width {
+        grid-column: span 2;
+    }
+    
+    .modal-content h3 {
+        font-size: 2.2rem;
+    }
+    
+    .modal-content button[type="submit"] {
+        grid-column: span 2;
+        padding: 16px 32px;
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+}
+
+@media (min-width: 701px) {
+    .guests-input-group {
+        align-items: center !important;
+        margin: 4px 0 0 0 !important;
+        max-width: 100%;
+        gap: 0 !important;
+    }
+    
+    .guests-btn,
+    .guests-input-group input[type="number"] {
+        height: 56px !important;
+        line-height: 56px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    .guests-btn span, .guests-btn i {
+        display: flex;
+        align-items: center;
+    }
+    
+    .guests-input-group input[type="number"] {
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    .guests-btn,
+    .guests-input-group input[type="number"] {
+        height: 52px;
+        min-height: 52px;
+        font-size: 1.08rem;
+    }
+    
+    .guests-input-group {
+        display: flex;
+        gap: 0;
+        align-items: center;
+        width: 100%;
+        max-width: 320px;
+        margin: 4px auto 0 auto;
+        background: none;
+        border: none;
+        box-shadow: none;
+        border-radius: 12px;
+        padding: 0;
+    }
+    
+    .guests-input-group input[type="number"] {
+        position: static;
+        margin-bottom: 0;
+        align-self: auto;
+    }
+    
+    .guests-input-group {
+        align-items: flex-end !important;
+    }
+    
+    .guests-btn {
+        padding-bottom: 6px !important;
+        padding-top: 0 !important;
+    }
+    
+    .guests-input-group input[type="number"] {
+        padding-bottom: 2px !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .modal-content {
+        max-width: 1000px;
+        padding: 56px 48px;
+    }
+    
+    .modal-content form {
+        gap: 24px;
+    }
+    
+    .modal-content input,
+    .modal-content textarea {
+        padding: 16px 18px;
+        font-size: 1.05rem;
+    }
+    
+    .modal-content button[type="submit"] {
+        padding: 18px 36px;
+        font-size: 1.15rem;
+        margin-top: 24px;
+    }
+}
+
+@media (max-width: 700px) {
+    .modal-content {
+        width: 100%;
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+    
+    .close {
+        right: 16px;
+        top: 16px;
+        font-size: 1.8rem;
+    }
+    
+    .booking__dates {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
+        margin-top: 12px;
+        margin-bottom: 0;
+    }
+    
+    .booking__dates label {
+        width: 100%;
+        align-items: flex-start;
+        font-size: 0.98rem;
+        overflow-wrap: anywhere;
+        margin-bottom: 8px;
+    }
+    
+    .booking__dates input[type="text"] {
+        width: 100%;
+        max-width: 100%;
+        font-size: 0.98rem;
+        min-width: 0;
+        padding: 10px 14px;
+        margin-bottom: 0;
+    }
+    
+    .booking__calendar {
+        padding: 8px;
+        margin-bottom: 10px;
+        max-width: 100%;
+    }
+    
+    #bookingCalendar {
+        max-width: 100%;
+        min-width: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* --- reCAPTCHA Disclaimer --- */
+.recaptcha-disclaimer {
+    font-size: 0.85em;
+    color: #888;
+    margin-top: 12px;
+    text-align: center;
+    line-height: 1.4;
+    width: 100%;
+    display: block;
+}
+
+.recaptcha-disclaimer a {
+    color: #888;
+    text-decoration: underline;
+}
+
+.recaptcha-disclaimer a:hover {
+    color: var(--brand-primary);
+}
+
+/* Hide reCAPTCHA badge since we have disclaimer */
+.grecaptcha-badge {
+    visibility: hidden !important;
+}
+
+@media (min-width: 700px) {
+    .recaptcha-disclaimer {
+        grid-column: span 2;
+        text-align: center;
+        margin-top: 16px;
+    }
+}

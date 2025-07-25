@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Kai's Cabin backend API for reservations, email, and reCAPTCHA integration.",
+  "author": "Jao Hendrick M. Esguerra",
+  "keywords": ["vercel", "express", "firebase", "nodemailer", "recaptcha", "api", "serverless"],
+  "scripts": {
+    "test": "mocha tests/*.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.4.0",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^7.0.5"
+  },
+  "devDependencies": {
+    "chai": "^5.2.1",
+    "mocha": "^11.7.1",
+    "supertest": "^7.1.4"
+  }
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unsubscribe | Kai's Cabin</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/booking/modal.css">
+  <style>
+    body {
+      background: var(--brand-light, #eef2e8);
+      font-family: var(--font-primary, 'Inter', sans-serif);
+      color: var(--brand-dark, #334a2a);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+    .unsubscribe-container {
+      background: var(--white, #fff);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      padding: 2.5rem 2rem 2rem 2rem;
+      max-width: 420px;
+      width: 95vw;
+      text-align: center;
+      border-top: 8px solid var(--brand-primary, #5d8a4a);
+    }
+    .unsubscribe-container h1 {
+      color: var(--brand-primary, #5d8a4a);
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-secondary, 'Poppins', sans-serif);
+    }
+    .unsubscribe-container p {
+      color: var(--brand-dark, #334a2a);
+      font-size: 1.08rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .unsubscribe-container .btn {
+      background: var(--brand-primary, #5d8a4a);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.7rem 2.2rem;
+      font-size: 1.08rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 1rem;
+    }
+    .unsubscribe-container .btn:hover {
+      background: var(--brand-secondary, #7fa06b);
+    }
+    .unsubscribe-container .success {
+      color: var(--brand-primary, #5d8a4a);
+      font-weight: 600;
+      margin-top: 1.5rem;
+    }
+    .unsubscribe-container .error {
+      color: var(--error, #a45d5d);
+      font-weight: 600;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="unsubscribe-container">
+    <h1>Unsubscribe</h1>
+    <p id="unsubscribe-message">Processing your request...</p>
+    <button class="btn" id="back-btn" style="display:none;">Back to Home</button>
+  </div>
+  <script>
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    const email = getQueryParam('email');
+    const messageEl = document.getElementById('unsubscribe-message');
+    const backBtn = document.getElementById('back-btn');
+
+    function showResult(success) {
+      if (success) {
+        messageEl.textContent = 'You have been unsubscribed from Kai\'s Cabin updates. We\'re sorry to see you go.';
+        messageEl.className = 'success';
+      } else {
+        messageEl.textContent = 'An error occurred. Please try again later or contact us at kaiscabinph@gmail.com.';
+        messageEl.className = 'error';
+      }
+      backBtn.style.display = 'inline-block';
+    }
+
+    backBtn.onclick = function() {
+      window.location.href = '/';
+    };
+
+    if (!email) {
+      showResult(false);
+    } else {
+      fetch('/api/unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      .then(res => res.json())
+      .then(data => showResult(data.success))
+      .catch(() => showResult(false));
+    }
+  </script>
+</body>
+</html> 
