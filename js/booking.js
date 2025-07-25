@@ -95,10 +95,12 @@ function resetForm() {
   document.body.classList.remove('modal-open');
   document.body.style.top = '';
 
-  // Reload the page to reset calendar state
-  setTimeout(() => {
-    window.location.reload();
-  }, 1000);
+  // Reset calendar selections without reloading page
+  selectedStart = null;
+  selectedEnd = null;
+  selectionMode = 'checkin';
+  updateFields();
+  renderCalendar();
 }
 
 // Get client IP (simplified version)
@@ -530,13 +532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Get reCAPTCHA token
-        console.log('🎯 Starting reCAPTCHA execution...');
         const recaptchaToken = await executeRecaptcha();
-        console.log('🎯 reCAPTCHA token:', recaptchaToken ? '✅ Received' : '❌ Failed');
-        if (recaptchaToken) {
-          console.log('🎯 Token length:', recaptchaToken.length);
-          console.log('🎯 Token preview:', recaptchaToken.substring(0, 20) + '...');
-        }
         if (!recaptchaToken) {
           throw new Error('CAPTCHA verification failed. Please try again.');
         }
@@ -581,9 +577,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
         }
         
-        // Show the normal success message (same as original)
-        showSuccessMessage('Reservation submitted successfully! We will contact you soon.');
-        resetForm();
+        // Show success popup first, then refresh after user closes it
+        alert('Reservation submitted successfully! We will contact you soon.');
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
 
       } catch (error) {
         showErrorMessage(error.message);
