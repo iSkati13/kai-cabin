@@ -59,7 +59,4 @@ backup/
 dist/
 build/
 .vercel
-*.zip
-
-# Sensitive frontend config
-config.js 
+*.zip 
