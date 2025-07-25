@@ -99,7 +99,7 @@
     if (!email) {
       showResult(false);
     } else {
-      fetch('/api/unsubscribe', {
+      fetch(`${window.API_BASE}/api/unsubscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })

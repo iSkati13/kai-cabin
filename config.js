@@ -7,4 +7,5 @@ window.firebaseConfig = {
   messagingSenderId: "1090123456789", // Replace with your actual sender ID if different
   appId: "1:1090123456789:web:abcdef1234567890" // Replace with your actual app ID if different
 };
-window.recaptchaSiteKey = "6LcgbnArAAAAAN5X7tRuPKnQUODjze7RCWtDSG-b"; 
+window.recaptchaSiteKey = "6LcgbnArAAAAAN5X7tRuPKnQUODjze7RCWtDSG-b";
+window.API_BASE = "https://kais-cabin.vercel.app"; 

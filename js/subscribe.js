@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
     db.collection("subscriptions").add({ email: email, createdAt: new Date() })
       .then(function() {
         // Call backend API to send welcome email
-        fetch('/api/send-welcome-email', {
+        fetch(`${window.API_BASE}/api/send-welcome-email`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email })
