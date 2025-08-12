@@ -292,21 +292,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         if (!isClickable || isToday) classes.push('not-clickable');
         classes = classes.join(' ');
-        let tooltipContent = '';
-        let tooltipTitle = '';
-        if (isCheckinDay) {
-          tooltipTitle = 'Check-out Day';
-          tooltipContent = 'Available for new check-in (afternoon)';
-        } else if (isCheckoutDay) {
-          tooltipTitle = 'Check-in Day';
-          tooltipContent = 'Available for check-out (morning)';
-        } else if (isBlocked) {
-          tooltipTitle = 'Occupied';
-          tooltipContent = 'Not available for booking';
-        }
-        const tooltipAttr = tooltipContent ? `data-tooltip="${tooltipContent}" data-tooltip-title="${tooltipTitle}"` : '';
         const clickAttr = isClickable ? 'tabindex="0"' : 'tabindex="-1"';
-        html += `<span class="${classes}" data-date="${formatDate(date)}" ${clickAttr} ${tooltipAttr}>${day}</span>`;
+        html += `<span class="${classes}" data-date="${formatDate(date)}" ${clickAttr}>${day}</span>`;
         day++;
       }
     }
@@ -369,6 +356,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   renderCalendar();
+
+
 
   const openModalBtn = document.getElementById("openModal");
   const modal = document.getElementById("reservationModal");
@@ -564,17 +553,39 @@ document.addEventListener('DOMContentLoaded', async () => {
           return;
         }
 
-        // Capture values BEFORE any form reset
-        const subscribeChecked = document.getElementById('subscribe-checkbox') && document.getElementById('subscribe-checkbox').checked;
-        const subEmail = document.getElementById('email') && document.getElementById('email').value.trim().toLowerCase();
+        // Handle subscription if checkbox is checked
+        const subscribeChecked = document.getElementById('subscribe-checkbox')?.checked;
+        const subEmail = document.getElementById('email')?.value.trim().toLowerCase();
 
-        // If subscribing, add to Firestore (simple, no modal)
         if (subscribeChecked && subEmail) {
-          try {
-            await db.collection("subscriptions").add({ email: subEmail, createdAt: new Date() });
-          } catch (err) {
-            console.error('Subscription error:', err);
-          }
+          // Async subscription process - doesn't block form submission
+          (async () => {
+            try {
+              // Add to Firestore with timeout
+              const firestorePromise = db.collection("subscriptions").add({ 
+                email: subEmail, 
+                createdAt: new Date() 
+              });
+              const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Firestore timeout')), 3000)
+              );
+              
+              await Promise.race([firestorePromise, timeoutPromise]);
+            } catch (firestoreErr) {
+              // Continue to send welcome email even if Firestore fails
+            }
+            
+            // Send welcome email
+            try {
+              await fetch(`${window.API_BASE}/api/send-welcome-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: subEmail })
+              });
+            } catch (emailErr) {
+              // Silent fail - doesn't affect user experience
+            }
+          })();
         }
         
         // Close confirmation modal first
@@ -585,8 +596,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Show success popup and wait for user to close it
         alert('Reservation submitted successfully! We will contact you soon.');
         
-        // Only refresh after user closes the alert
-        window.location.reload();
+        // Give time for the welcome email to be sent before reloading
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000); // 2 second delay
 
       } catch (error) {
         showErrorMessage(error.message);

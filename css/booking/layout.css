@@ -323,45 +323,7 @@
   }
 }
 
-/* Tooltip styles */
-.calendar-date[data-tooltip] {
-    position: relative;
-    cursor: help;
-}
-
-.calendar-date[data-tooltip]:hover::after {
-    content: attr(data-tooltip-title) '\A' attr(data-tooltip);
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    white-space: pre-line;
-    text-align: center;
-    z-index: 9999;
-    min-width: 160px;
-    max-width: 220px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    pointer-events: none;
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.calendar-date[data-tooltip]:hover::before {
-    content: '';
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 5px solid transparent;
-    border-top-color: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    pointer-events: none;
-}
+/* Tooltip styles removed - using legend instead */
 
 /* --- Date Inputs --- */
 .booking__dates {
